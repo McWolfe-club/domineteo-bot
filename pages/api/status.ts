@@ -1,11 +1,11 @@
 import { verifyKey } from "discord-interactions";
+import { NextApiHandler, NextApiRequest } from "next";
 
 // API for dom bot to check status for snek erth game
-export default (req, res) => {
-    const signature = req.headers['x-signature-ed25519'];
-    const timestamp = req.headers['x-signature-timestamp'];
-    console.log(signature, timestamp);
-    const isValidRequest = verifyKey(req.rawBody, signature, timestamp, process.env.APP_PUBLIC_KEY);
+export default (req: NextApiRequest, res) => {
+    const signature = (req as any).headers['x-signature-ed25519'];
+    const timestamp = (req as any).headers['x-signature-timestamp'];
+    const isValidRequest = verifyKey(JSON.stringify(req.body, null, 2), signature, timestamp, process.env.APP_PUBLIC_KEY);
     if (!isValidRequest) {
       return res.status(401).end('Bad request signature');
     }
