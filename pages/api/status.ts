@@ -15,6 +15,8 @@ export default async (req: NextApiRequest, res) => {
 
   const rawBody = (await getRawBody(req)).toString();
 
+  console.log(signature, timestamp, rawBody);
+
   const isValidRequest = verifyKey(
     rawBody,
     signature,
