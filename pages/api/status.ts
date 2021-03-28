@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res) => {
   const signature = (req as any).headers["x-signature-ed25519"];
   const timestamp = (req as any).headers["x-signature-timestamp"];
 
-  const rawBody = await getRawBody(req);
+  const rawBody = (await getRawBody(req)).toString();
 
   const isValidRequest = verifyKey(
     rawBody,
