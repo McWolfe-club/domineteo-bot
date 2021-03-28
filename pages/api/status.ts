@@ -15,7 +15,7 @@ const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 function buildContentFromNations(nations: Nation[]): string {
   let message = '';
   nations.forEach(nat => {
-    if (nat.controller === PlayerController.Human && nat.turnplayed !== '2') {
+    if (nat.controller == PlayerController.Human && nat.turnplayed !== '2') {
       message += `${nat.name}: ${nat.turnplayed === '0' ? 'Pending' : 'Unfinished'}\n`
     }
   });
@@ -38,11 +38,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).end('invalid request signature');
   }
 
-  if (req.body.type === InteractionResType.Pong) {
+  const jsonBody = JSON.parse(rawBody);
+
+  if (jsonBody.type === InteractionResType.Pong) {
     res.status(200).json({ type: InteractionResType.Pong });
   } else {
-    const { id } = req.body;
-    const response = await fetch(`https://dom5.snek.earth/api/games/${id}/status`);
+    const optionId = jsonBody.data.options.find(opt => opt.name === 'id');
+    const response = await fetch(`https://dom5.snek.earth/api/games/${optionId.value}/status`);
 
     if (response.ok) {
       const nationData: { nations: Nation[] } = await response.json();
@@ -60,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         type: InteractionResType.ChannelMessageWithSource,
         data: {
           tts: false,
-          content: `Cant find game id ${id}`,
+          content: `Cant find game id ${optionId.value}`,
         }
       });
     }
