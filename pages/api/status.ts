@@ -8,6 +8,8 @@ export const config = {
   },
 };
 
+const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
+
 // API for dom bot to check status for snek erth game
 export default async (req: NextApiRequest, res) => {
   const signature = (req as any).headers["x-signature-ed25519"];
@@ -15,24 +17,20 @@ export default async (req: NextApiRequest, res) => {
 
   const rawBody = (await getRawBody(req)).toString();
 
-  console.log(signature, timestamp, rawBody);
-
   const isValidRequest = verifyKey(
     rawBody,
     signature,
     timestamp,
-    process.env.APP_PUBLIC_KEY
+    APP_PUBLIC_KEY,
   );
 
+  console.log({
+    signature, timestamp, rawBody, APP_PUBLIC_KEY, isValidRequest,
+  });
+    
   if (!isValidRequest) {
-    return res.status(401).end("Bad request signature");
+    return res.status(401).end("invalid request signature");
   }
 
-  res.status(200).json({
-    type: 4,
-    data: {
-      tts: false,
-      content: "Test",
-    },
-  });
+  res.status(200).json({type: 1});
 };
