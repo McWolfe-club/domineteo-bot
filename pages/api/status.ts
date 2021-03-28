@@ -10,8 +10,7 @@ export const config = {
   },
 };
 
-// const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
-const APP_PUBLIC_KEY = 'fe5b8b360aca8befbb92d56063c77d4cd99a79ea904c9e7f54a053dfbeb4109c';
+const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 function buildContentFromNations(nations: Nation[]): string {
   let message = '';
