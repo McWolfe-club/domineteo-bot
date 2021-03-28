@@ -13,13 +13,24 @@ export const config = {
 const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 function buildContentFromNations(nations: Nation[]): string {
-  let message = '';
+  let pending = '';
+  let unfinished = '';
+
   nations.forEach(nat => {
     if (nat.controller == PlayerController.Human && nat.turnplayed !== '2') {
-      message += `${nat.name}: ${nat.turnplayed === '0' ? 'Pending' : 'Unfinished'}\n`
+      const nation = `    - ${nat.name}\n`;
+      if (nat.turnplayed === '0') {
+        pending += nation;
+      } else if (nat.turnplayed === '1') {
+        unfinished += nation;
+      }
     }
   });
-  return message;
+  return `${unfinished.length ? 'Unfinished' : ''}:
+    ${unfinished}
+    ${pending.length ? 'Pending' : ''}:
+    ${pending}
+    `.trim();
 }
 
 // API for dom bot to check status for snek erth game
