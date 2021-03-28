@@ -43,6 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } else {
     const { id } = req.body;
     const response = await fetch(`https://dom5.snek.earth/api/games/${id}/status`);
+
     if (response.ok) {
       const nationData: { nations: Nation[] } = await response.json();
       const discordJson = {
@@ -52,6 +53,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           content: buildContentFromNations(nationData.nations)
         }
       };
+
+      res.status(200).json(discordJson);
     }
   }
 };
