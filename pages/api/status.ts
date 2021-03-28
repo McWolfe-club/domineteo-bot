@@ -22,6 +22,13 @@ export default async (req: NextApiRequest, res) => {
     process.env.APP_PUBLIC_KEY
   );
 
+  console.log({
+    req, res,
+    signature, timestamp, rawBody,
+    token: process.env.APP_PUBLIC_KEY,
+    validation: isValidRequest
+  });
+
   if (!isValidRequest) {
     return res.status(401).end("Bad request signature");
   }
