@@ -69,7 +69,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         type: InteractionResType.ChannelMessageWithSource,
         data: {
           tts: false,
-          content: buildContentFromNations(nationData.nations)
+          content: `
+            Game ${optionId.value}:
+            ${buildContentFromNations(nationData.nations)}
+            `
         }
       };
 
