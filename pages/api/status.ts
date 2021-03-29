@@ -1,6 +1,7 @@
 import { verifyKey } from "discord-interactions";
 import { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
+import getGameInfo from "../../util/getGameInfo";
 import getGameStatus, { PlayerNationStatus } from "../../util/getGameStatus";
 import { InteractionResType } from "./common";
 
@@ -44,13 +45,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { value: optionId } = jsonBody.data.options.find((opt) => opt.name === "id");
 
     try {
+      const gameInfo = await getGameInfo(optionId);
       const gameStatus = await getGameStatus(optionId);
 
       const discordJson = {
         type: InteractionResType.ChannelMessageWithSource,
         data: {
           tts: false,
-          content: `Game ${optionId}:\n${formatGameStatus(gameStatus)}`,
+          content: `Game **${gameInfo.name}**(${optionId}):\n${formatGameStatus(gameStatus)}`,
         },
       };
 
