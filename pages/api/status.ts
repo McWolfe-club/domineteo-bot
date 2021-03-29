@@ -52,7 +52,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         type: InteractionResType.ChannelMessageWithSource,
         data: {
           tts: false,
-          content: `Game **${gameInfo.name}**(${optionId}):\n${formatGameStatus(gameStatus)}`,
+          content: `Game **${gameInfo.name}** (*${optionId}*):\n${formatGameStatus(gameStatus)}`,
         },
       };
 
