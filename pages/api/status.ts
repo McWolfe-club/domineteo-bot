@@ -41,7 +41,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (jsonBody.type === InteractionResType.Pong) {
     res.status(200).json({ type: InteractionResType.Pong });
   } else {
-    const optionId = jsonBody.data.options.find((opt) => opt.name === "id");
+    const { value: optionId } = jsonBody.data.options.find((opt) => opt.name === "id");
 
     try {
       const gameStatus = await getGameStatus(optionId);
@@ -50,7 +50,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         type: InteractionResType.ChannelMessageWithSource,
         data: {
           tts: false,
-          content: `Game ${optionId}:\n${formatGameStatus}`,
+          content: `Game ${optionId}:\n${formatGameStatus(gameStatus)}`,
         },
       };
 
