@@ -27,12 +27,12 @@ function buildContentFromNations(nations: Nation[]): string {
     }
   });
 
-  return `${unfinished.length ? 'Unfinished' : ''}:
+  return `${unfinished.length ? 'Unfinished:' : ''}
     ${unfinished.length ? '\`\`\`' : ''}
     ${unfinished}
     ${unfinished.length ? '\`\`\`' : ''}
 
-    ${pending.length ? 'Pending' : ''}:
+    ${pending.length ? 'Pending:' : ''}
     ${pending.length ? '\`\`\`' : ''}
     ${pending}
     ${pending.length ? '\`\`\`' : ''}
