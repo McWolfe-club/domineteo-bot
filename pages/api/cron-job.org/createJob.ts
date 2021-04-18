@@ -5,7 +5,7 @@ export default async (token: string, gameId: string, discordChannelId: string) =
     const { jobs } = await jobList(token);
     const cronTitle = `${gameId}__${discordChannelId}`;
 
-    if (jobs.find(job => job.title.includes(gameId)) != null) {
+    if (jobs.find(job => job.title.includes(`${gameId}__`)) != null) {
         throw new Error('Game is already being tracked in this channel');
     }
 
