@@ -9,14 +9,11 @@ export default async (token: string, gameId: string, discordChannelId: string) =
         throw new Error('Game is already being tracked in this channel');
     }
 
-    try {      
+    try {
+        const JSONBody = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
         const createJobResponse = await fetch(CRON_URL,
             {
-                body: JSON.stringify({
-                    ...defaultJobBody,
-                    url: `https://dom.mcwolfe.club/api/check/${gameId}`,
-                    title: cronTitle
-                }),
+                body: JSON.stringify(JSONBody),
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.CreateJob,

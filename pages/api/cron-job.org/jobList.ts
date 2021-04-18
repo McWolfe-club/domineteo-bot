@@ -4,6 +4,7 @@ export default async (token: string): Promise<{ jobs: CronJob[], someFailed: boo
     try {
         const jobListResponse = await fetch(CRON_URL,
             {
+                body: '{}',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.JobList,
