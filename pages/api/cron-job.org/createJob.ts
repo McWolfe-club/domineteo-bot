@@ -10,7 +10,8 @@ export default async (token: string, gameId: string, discordChannelId: string) =
     }
 
     try {
-        const job = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
+        // const job = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
+        const job = { ...defaultJobBody, url: `https://deploy-preview-9--gallant-payne-23f21c.netlify.app/api/check/${gameId}`, title: cronTitle };
 
         const createJobResponse = await fetch(CRON_URL,
             {
