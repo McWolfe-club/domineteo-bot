@@ -14,7 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse, jsonBody: any) 
             type: InteractionResType.ChannelMessageWithSource,
             data: {
                 tts: false,
-                content: `We will now get notifications for game ${gameId}`,
+                content: `We will now get notifications for game \`${gameId}\``,
             },
         };
         res.status(200).json(discordJson);
