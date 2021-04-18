@@ -15,7 +15,7 @@ export default async (token: string, gameId: string, discordChannelId: string) =
             {
                 body: JSON.stringify(JSONBody),
                 headers: {
-                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.CreateJob,
                     'Authorization': `Bearer ${token}`,
                 },
