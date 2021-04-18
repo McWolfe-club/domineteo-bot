@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { InteractionResType } from "../common";
 import createJob from "../cron-job.org/createJob";
 import login from "../cron-job.org/login";
-import send_message from "./send_message";
 
 export default async (req: NextApiRequest, res: NextApiResponse, jsonBody: any) => {
     const { channel_id } = jsonBody;
