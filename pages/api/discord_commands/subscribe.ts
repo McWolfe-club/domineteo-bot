@@ -10,7 +10,6 @@ export default async (req: NextApiRequest, res: NextApiResponse, jsonBody: any) 
 
     try {
         const token = await login();
-        await send_message('I could login', '825796743471693885');
         await createJob(token, gameId, channel_id);
         const discordJson = {
             type: InteractionResType.ChannelMessageWithSource,
