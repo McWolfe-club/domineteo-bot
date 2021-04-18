@@ -27,6 +27,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return status(req, res, jsonBody);
       case 'subscribe':
         return subscribe(req, res, jsonBody);
+      default:
+        throw new Error('Wrong command name');
     }
   }
 };
