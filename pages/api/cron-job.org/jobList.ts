@@ -1,7 +1,6 @@
 import { CRON_URL, CronMethod } from './config';
 
 export default async (token: string): Promise<{ jobs: CronJob[], someFailed: boolean }> => {
-
     try {
         const jobListResponse = await fetch(CRON_URL,
             {
@@ -9,7 +8,6 @@ export default async (token: string): Promise<{ jobs: CronJob[], someFailed: boo
                     'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.JobList,
                     'Authorization': `Bearer ${token}`,
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
                 },
                 method: 'POST',
             }
