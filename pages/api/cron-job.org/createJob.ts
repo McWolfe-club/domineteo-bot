@@ -10,11 +10,11 @@ export default async (token: string, gameId: string, discordChannelId: string) =
     }
 
     try {
-        const JSONBody = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
+        const job = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
 
         const createJobResponse = await fetch(CRON_URL,
             {
-                body: JSON.stringify(JSONBody),
+                body: JSON.stringify({ job }),
                 headers: {
                     'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.CreateJob,
@@ -30,31 +30,29 @@ export default async (token: string, gameId: string, discordChannelId: string) =
 };
 
 const defaultJobBody = {
-    job: {
-        enabled: true,
-        saveResponses: true,
-        auth: {
-            enable: false,
-            user: '',
-            password: ''
-        },
-        notification: {
-            onSuccess: true,
-            onDisable: true,
-            onFailure: false
-        },
-        requestMethod: 0,
-        extendedData: {
-            body: '',
-            headers: {}
-        },
-        schedule: {
-            mdays: [-1],
-            wdays: [-1],
-            months: [-1],
-            hours: [-1],
-            minutes: [-1],
-            timezone: 'Europe/Madrid'
-        }
+    enabled: true,
+    saveResponses: true,
+    auth: {
+        enable: false,
+        user: '',
+        password: ''
+    },
+    notification: {
+        onSuccess: true,
+        onDisable: true,
+        onFailure: false
+    },
+    requestMethod: 0,
+    extendedData: {
+        body: '',
+        headers: {}
+    },
+    schedule: {
+        mdays: [-1],
+        wdays: [-1],
+        months: [-1],
+        hours: [-1],
+        minutes: [-1],
+        timezone: 'Europe/Madrid'
     }
 }

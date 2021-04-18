@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import getGameStatus from "../../../util/getGameStatus";
+import createJob from "../cron-job.org/createJob";
 import deleteJob from "../cron-job.org/deleteJob";
 import historyDetail from "../cron-job.org/historyDetail";
 import jobHistory from "../cron-job.org/jobHistory";
