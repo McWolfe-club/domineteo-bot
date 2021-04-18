@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             if (identifier) {
                 const previousStatus = await historyDetail(cronToken, identifier);
                 // find nation that was done or unfinished, and is now pending.
+
                 const newTurn = previousStatus.find(prevNation => {
                     const currentNation = currentStatus.find(n => n.name === prevNation.name);
                     return (prevNation.status === 'Done' || prevNation.status === 'Unfinished') && currentNation.status === 'Pending';
@@ -42,15 +43,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(200).json(currentStatus);
     } catch (error) {
-        if (error === 'Game id not found') {
-            const cronToken = await login();
-            const { jobs } = await jobList(cronToken);
-            const gameJob = jobs.find(j => j.title.includes(gameId as string));
-
-            await deleteJob(cronToken, gameJob.jobId);
-            throw new Error('Game doesn\'t exist anymore. Automatically unsubscribed');
-        }
-
         throw new Error('Something went wrong when trying to get the current state of the game.\n' + error.toString());
     }
 };

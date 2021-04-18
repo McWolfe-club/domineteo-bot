@@ -1,5 +1,6 @@
 import jobList from './jobList';
 import { CRON_URL, CronMethod } from './config';
+import getGameInfo from '../../../util/getGameInfo';
 
 export default async (token: string, gameId: string, discordChannelId: string) => {
     const { jobs } = await jobList(token);
@@ -8,6 +9,9 @@ export default async (token: string, gameId: string, discordChannelId: string) =
     if (jobs.find(job => job.title.includes(`${gameId}__`)) != null) {
         throw new Error('Game is already being tracked in this channel');
     }
+
+    // check game exists
+    await getGameInfo(gameId);
 
     try {
         const job = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
