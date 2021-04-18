@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import getGameInfo from "../../../util/getGameInfo";
 import getGameStatus from "../../../util/getGameStatus";
 import createJob from "../cron-job.org/createJob";
 import deleteJob from "../cron-job.org/deleteJob";
@@ -31,7 +32,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 }) != null;
 
                 if (newTurn) {
-                    const message = `There's a new turn for game ${gameId}`;
+                    const gameInfo = await getGameInfo(gameId as string);
+                    const gameLink = `Game [**${gameInfo.name} (${gameId})**](https://dom.mcwolfe.club/game/${gameId})`;
+
+                    const message = `There's a new turn for game\n${gameLink}`;
                     await send_message(message, channelId);
                 }
             }
