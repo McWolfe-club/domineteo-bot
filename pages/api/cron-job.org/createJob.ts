@@ -15,13 +15,14 @@ export default async (token: string, gameId: string, discordChannelId: string) =
             {
                 body: JSON.stringify(JSONBody),
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.CreateJob,
                     'Authorization': `Bearer ${token}`,
                 },
                 method: 'POST',
             }
         );
-        return createJobResponse.json();
+        return await createJobResponse.json();
     } catch(error) {
         throw new Error(`Cron failed and couldn\'t create new job for game ${gameId}. Error: ${JSON.stringify(error)}`);
     }
