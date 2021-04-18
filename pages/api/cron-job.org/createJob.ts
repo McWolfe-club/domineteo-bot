@@ -9,25 +9,25 @@ export default async (token: string, gameId: string, discordChannelId: string) =
         throw new Error('Game is already being tracked in this channel');
     }
 
-    const createJobResponse = await fetch(CRON_URL,
-        {
-            body: JSON.stringify({
-                ...defaultJobBody,
-                url: `https://dom.mcwolfe.club/api/check/${gameId}`,
-                title: cronTitle,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-                'X-API-Method': CronMethod.CreateJob,
-                'Authorization': `Bearer ${token}`,
-            },
-            method: 'POST',
-        }
-    );
-
-    if (createJobResponse.ok) {
+    try {      
+        const createJobResponse = await fetch(CRON_URL,
+            {
+                body: JSON.stringify({
+                    ...defaultJobBody,
+                    url: `https://dom.mcwolfe.club/api/check/${gameId}`,
+                    title: cronTitle,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Method': CronMethod.CreateJob,
+                    'Authorization': `Bearer ${token}`,
+                },
+                method: 'POST',
+            }
+        );
         return createJobResponse.json();
-    } else {
+    } catch(error) {
+        console.error(JSON.stringify(error));
         throw new Error(`Cron failed and couldn\'t create new job for game ${gameId}`);
     }
 };
