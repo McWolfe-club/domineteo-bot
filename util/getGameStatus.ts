@@ -5,7 +5,7 @@ export interface PlayerNationStatus {
   status: 'Pending' | 'Unfinished' | 'Done';
 }
 
-const TURN_PLAYED_TO_STATUS: {[key: string]: PlayerNationStatus['status']} = {
+const TURN_PLAYED_TO_STATUS: { [key: string]: PlayerNationStatus['status'] } = {
   '0': 'Pending',
   '1': "Unfinished",
   '2': 'Done',
@@ -22,7 +22,7 @@ function buildContentFromNations(nations: Nation[]): PlayerNationStatus[] {
 
 export default async function (gameId: string) {
   const response = await fetch(`https://dom5.snek.earth/api/games/${gameId}/status`);
-  
+
   if (response.ok) {
     const nationData: { nations: Nation[] } = await response.json();
 
