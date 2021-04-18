@@ -11,7 +11,7 @@ export default async (token: string): Promise<{ jobs: CronJob[], someFailed: boo
                 method: 'POST',
             }
         );
-        return jobListResponse.json();
+        return await jobListResponse.json();
     } catch(error) {
         throw new Error(`Cron failed when fetching Job List, error: ${JSON.stringify(error)}`);
     }
