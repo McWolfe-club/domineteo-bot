@@ -11,11 +11,12 @@ export default async (token: string, gameId: string, discordChannelId: string) =
 
     try {
         const JSONBody = { ...defaultJobBody, url: `https://dom.mcwolfe.club/api/check/${gameId}`, title: cronTitle };
+        throw Error(JSON.stringify(JSONBody));
         const createJobResponse = await fetch(CRON_URL,
             {
                 body: JSON.stringify(JSONBody),
                 headers: {
-                    // 'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.CreateJob,
                     'Authorization': `Bearer ${token}`,
                 },
