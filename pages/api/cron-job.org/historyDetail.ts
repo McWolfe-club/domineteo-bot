@@ -14,8 +14,9 @@ export default async (token: string, identifier: string | number): Promise<Playe
                 method: 'POST',
             }
         );
-    
-        const { body } = await detailResponse.json();
+            
+        const { body } = (await detailResponse.json()).jobHistoryDetails;
+
         return JSON.parse(body);
     } catch(error) {
         throw new Error(`Cron failed when fetching details for job history id: ${identifier}, error: ${JSON.stringify(error)}`);

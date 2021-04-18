@@ -15,6 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const { jobs } = await jobList(cronToken);
         const gameJob = jobs.find(j => j.title.includes(gameId as string));
         const channelId = gameJob?.title.split('__')[1];
+
         const currentStatus = await getGameStatus(gameId as string);
 
         // get previous game state and send alert if new turn started
