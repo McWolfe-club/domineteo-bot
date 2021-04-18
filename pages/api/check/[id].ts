@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 const previousStatus = await historyDetail(cronToken, identifier);
                 // find nation that was done or unfinished, and is now pending.
 
-                if (!currentStatus.length) {
+                if (Array.isArray(currentStatus) && !currentStatus.length) {
                     res.status(200).json(previousStatus);
                     return;
                 }
