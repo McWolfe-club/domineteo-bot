@@ -1,9 +1,8 @@
-import { verifyKey } from "discord-interactions";
 import { NextApiRequest, NextApiResponse } from "next";
-import getRawBody from "raw-body";
 import getGameInfo from "../../util/getGameInfo";
 import getGameStatus, { PlayerNationStatus } from "../../util/getGameStatus";
 import { InteractionResType } from "./common";
+import validateRequest from './validate-request';
 
 export const config = {
   api: {
@@ -11,8 +10,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-const APP_PUBLIC_KEY = process.env.APP_PUBLIC_KEY;
 
 function formatGameStatus(nations: PlayerNationStatus[]) {
   return nations
@@ -23,21 +20,11 @@ function formatGameStatus(nations: PlayerNationStatus[]) {
 
 // API for dom bot to check status for snek erth game
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const signature = (req as any).headers["x-signature-ed25519"];
-  const timestamp = (req as any).headers["x-signature-timestamp"];
-  const rawBody = (await getRawBody(req)).toString();
-  const isValidRequest = verifyKey(
-    rawBody,
-    signature,
-    timestamp,
-    APP_PUBLIC_KEY
-  );
+  const { isValidRequest, jsonBody } = await validateRequest(req, res);
 
   if (!isValidRequest) {
     return res.status(401).end("invalid request signature");
   }
-
-  const jsonBody = JSON.parse(rawBody);
 
   if (jsonBody.type === InteractionResType.Pong) {
     res.status(200).json({ type: InteractionResType.Pong });
@@ -68,3 +55,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }
   }
 };
+ 
