@@ -5,6 +5,7 @@ import historyDetail from "../cron-job.org/historyDetail";
 import jobHistory from "../cron-job.org/jobHistory";
 import jobList from "../cron-job.org/jobList";
 import login from "../cron-job.org/login";
+import send_message from "../discord_commands/send_message";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { id: gameId } = req.query;
@@ -12,7 +13,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const cronToken = await login();
         const { jobs } = await jobList(cronToken);
-        const gameJob = jobs.find(j => j.title == gameId);
+        const gameJob = jobs.find(j => j.title.includes(gameId as string));
+        const channelId = gameJob.title.split('__')[1];
 
         try {
             const currentStatus = await getGameStatus(gameId as string);
@@ -30,17 +32,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     }) != null;
 
                     if (newTurn) {
-                        console.log('A new turn appeared');
-                        // make bot send message
-                        // {
-                        //     const discordJson = {
-                        //         type: InteractionResType.ChannelMessageWithSource,
-                        //         data: {
-                        //             tts: false,
-                        //             content: `We will now get notifications for game ${gameId}`,
-                        //         },
-                        //     };
-                        // }
+                        const message = `There's a new turn for game ${gameId}`;
+                        await send_message(message, channelId);
                     }
                 }
             }
@@ -50,7 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             if (error === 'Game id not found') {
                 const cronToken = await login();
                 const { jobs } = await jobList(cronToken);
-                const gameJob = jobs.find(j => j.title == gameId);
+                const gameJob = jobs.find(j => j.title.includes(gameId as string));
 
                 await deleteJob(cronToken, gameJob.jobId);
                 throw new Error('Game doesn\'t exist anymore. Automatically unsubscribed');
