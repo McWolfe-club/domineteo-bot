@@ -21,6 +21,7 @@ export default async (token: string, gameId: string, discordChannelId: string) =
                     'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.CreateJob,
                     'Authorization': `Bearer ${token}`,
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
                 },
                 method: 'POST',
             }
