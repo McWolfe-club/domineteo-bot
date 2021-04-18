@@ -15,7 +15,7 @@ export default async (token: string, gameId: string, discordChannelId: string) =
                 body: JSON.stringify({
                     ...defaultJobBody,
                     url: `https://dom.mcwolfe.club/api/check/${gameId}`,
-                    title: cronTitle,
+                    title: cronTitle
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,8 +27,7 @@ export default async (token: string, gameId: string, discordChannelId: string) =
         );
         return createJobResponse.json();
     } catch(error) {
-        console.error(JSON.stringify(error));
-        throw new Error(`Cron failed and couldn\'t create new job for game ${gameId}`);
+        throw new Error(`Cron failed and couldn\'t create new job for game ${gameId}. Error: ${JSON.stringify(error)}`);
     }
 };
 
