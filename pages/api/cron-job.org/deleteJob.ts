@@ -6,6 +6,7 @@ export default async (token: string, jobId: string | number): Promise<Boolean> =
             {
                 body: JSON.stringify({ jobId }),
                 headers: {
+                    'Content-Type': 'application/json',
                     'X-API-Method': CronMethod.Delete,
                     'Authorization': `Bearer ${token}`,
                 },
