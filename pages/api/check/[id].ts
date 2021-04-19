@@ -42,7 +42,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     const nations = { name: 'Nations', value: currentStatus.map(n => `\`${n.name}\`: \`${formatNationStatus(n.status)}\`\n`).join('') };
                     const title = `There's a new turn for ${gameInfo.name}`;
 
-                    send_messages(channelId, title, [game, nations]);
+                    await send_messages(channelId, title, [game, nations]);
                 }
             }
         }
