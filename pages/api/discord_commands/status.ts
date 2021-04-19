@@ -15,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse, jsonBody: any) 
         const game = { name: 'Game', value: `[**${gameInfo.name}**](https://dom.mcwolfe.club/game/${optionId})  (*${optionId}*)` };
         const nations = { name: 'Nations', value: gameStatus.map(n => `\`${n.name}\`: \`${formatNationStatus(n.status)}\`\n`).join() };
 
-        const embeds = createBotEmbeds(`**Game ${gameInfo.name}**`, [game, nations]);
+        const embeds = [createBotEmbeds(`**Game ${gameInfo.name}**`, [game, nations])];
 
         const discordJson = {
             type: InteractionResType.ChannelMessageWithSource,
