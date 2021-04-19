@@ -6,17 +6,7 @@ import jobHistory from "../cron-job.org/jobHistory";
 import jobList from "../cron-job.org/jobList";
 import login from "../cron-job.org/login";
 import send_messages from "../discord_commands/send_messages";
-
-function formatStatus(status: 'Pending' | 'Unfinished' | 'Done') {
-    switch(status) {
-        case 'Pending':
-            return '❌';
-        case 'Unfinished':
-            return '👨‍🏭';
-        case 'Done':
-            return '✔️';
-    }
-}
+import formatNationStatus from '../../../util/formatNationStatus';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { id: gameId } = req.query;
@@ -49,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 if (newTurn) {
                     const gameInfo = await getGameInfo(gameId as string);
                     const game = { name: 'Game', value: `[**${gameInfo.name}**](https://dom.mcwolfe.club/game/${gameId})  (*${gameId}*)` };
-                    const nations = { name: 'Nations', value: currentStatus.map(n => `\`${n.name}\`: \`${formatStatus(n.status)}\`\n`).join() };
+                    const nations = { name: 'Nations', value: currentStatus.map(n => `\`${n.name}\`: \`${formatNationStatus(n.status)}\`\n`).join() };
                     const title = `There's a new turn for ${gameInfo.name}`;
 
                     await send_messages(channelId, title, [game, nations]);

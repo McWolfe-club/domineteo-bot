@@ -1,4 +1,5 @@
 import Discord from 'discord.js';
+import createBotEmbeds from '../../../util/createBotEmbeds';
 
 export default async (channelId: string, title: string, messages: { name: string, value: string}[]): Promise<Discord.Message> => {
     const client = new Discord.Client();
@@ -6,10 +7,7 @@ export default async (channelId: string, title: string, messages: { name: string
 
     try {
         const channel = await client.channels.fetch(channelId) as Discord.TextChannel;
-        const embed = new Discord.MessageEmbed()
-            .setTitle(title)
-            .setColor('#a85232')
-            .addFields(messages);
+        const embed = createBotEmbeds(title, messages);
         return channel.send(embed);
     } catch {
         throw new Error(`Couldn\'t fetch client channel for bot. Check permissions or that channel exists. ID: ${channelId}`);

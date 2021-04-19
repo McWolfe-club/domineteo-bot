@@ -1,4 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import createBotEmbeds from "../../../util/createBotEmbeds";
+import formatNationStatus from "../../../util/formatNationStatus";
 import getGameInfo from "../../../util/getGameInfo";
 import getGameStatus, { PlayerNationStatus } from "../../../util/getGameStatus";
 import { InteractionResType } from "../common";
@@ -17,11 +19,16 @@ export default async (req: NextApiRequest, res: NextApiResponse, jsonBody: any) 
         const gameInfo = await getGameInfo(optionId);
         const gameStatus = await getGameStatus(optionId);
 
+        const game = { name: 'Game', value: `[**${gameInfo.name}**](https://dom.mcwolfe.club/game/${optionId})  (*${optionId}*)` };
+        const nations = { name: 'Nations', value: gameStatus.map(n => `\`${n.name}\`: \`${formatNationStatus(n.status)}\`\n`).join() };
+
+        const embeds = createBotEmbeds(`**Game ${gameInfo.name}**`, [game, nations]);
+
         const discordJson = {
             type: InteractionResType.ChannelMessageWithSource,
             data: {
+                embeds,
                 tts: false,
-                content: `Game [**${gameInfo.name}**](https://dom.mcwolfe.club/game/${optionId}) (*${optionId}*):\n${formatGameStatus(gameStatus)}`,
             },
         };
 
