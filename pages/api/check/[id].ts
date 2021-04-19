@@ -39,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 if (newTurn) {
                     const gameInfo = await getGameInfo(gameId as string);
                     const game = { name: 'Game', value: `[**${gameInfo.name}**](https://dom.mcwolfe.club/game/${gameId})  (*${gameId}*)` };
-                    const nations = { name: 'Nations', value: currentStatus.map(n => `\`${n.name}\`: \`${formatNationStatus(n.status)}\`\n`).join() };
+                    const nations = { name: 'Nations', value: currentStatus.map(n => `\`${n.name}\`: \`${formatNationStatus(n.status)}\`\n`).join('') };
                     const title = `There's a new turn for ${gameInfo.name}`;
 
                     await send_messages(channelId, title, [game, nations]);
