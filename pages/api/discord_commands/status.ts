@@ -5,13 +5,6 @@ import getGameInfo from "../../../util/getGameInfo";
 import getGameStatus, { PlayerNationStatus } from "../../../util/getGameStatus";
 import { InteractionResType } from "../common";
 
-function formatGameStatus(nations: PlayerNationStatus[]) {
-    return nations
-        .filter((nation) => nation.status != 'Done')
-        .map((nation) => `${nation.name} ${nation.status === 'Pending' ? ':alarm_clock:' : ':white_check_mark:'}`)
-        .join('\n');
-}
-
 export default async (req: NextApiRequest, res: NextApiResponse, jsonBody: any) => {
     const { value: optionId } = jsonBody.data.options.find((opt) => opt.name === "id");
 
