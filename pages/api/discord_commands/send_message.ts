@@ -2,7 +2,7 @@ import Discord from 'discord.js';
 
 export default async (message: string, channelId: string): Promise<Discord.Message> => {
     const client = new Discord.Client();
-    await client.login(process.env.BOT_TOKEN); // todo: add an env for discord login
+    await client.login(process.env.BOT_TOKEN);
 
     try {
         const channel = await client.channels.fetch(channelId) as Discord.TextChannel;

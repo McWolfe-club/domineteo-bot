@@ -25,14 +25,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 const previousStatus = await historyDetail(cronToken, identifier);
                 // find nation that was done or unfinished, and is now pending.
 
-                if (Array.isArray(currentStatus) && !currentStatus.length) {
+                if (Array.isArray(currentStatus) && currentStatus[0]?.status) {
                     res.status(200).json(previousStatus);
                     return;
                 }
 
                 const newTurn = previousStatus.find(prevNation => {
                     const currentNation = currentStatus.find(n => n.name === prevNation.name);
-                    return (prevNation.status === 'Done' || prevNation.status === 'Unfinished') && currentNation.status === 'Pending';
+                    return (prevNation.status === 'Done' || prevNation.status === 'Unfinished') && currentNation?.status === 'Pending';
                 }) != null;
 
                 if (newTurn) {
