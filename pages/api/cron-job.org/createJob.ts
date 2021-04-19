@@ -42,7 +42,7 @@ const defaultJobBody = {
         password: ''
     },
     notification: {
-        onSuccess: true,
+        onSuccess: false,
         onDisable: true,
         onFailure: false
     },
