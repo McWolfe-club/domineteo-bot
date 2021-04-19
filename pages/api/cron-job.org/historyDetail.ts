@@ -17,14 +17,15 @@ export default async (token: string, identifier: string | number): Promise<Playe
         );
             
         const { body, httpStatus, jobId, url  } = (await detailResponse.json()).jobHistoryDetails;
+        const JSONBody = JSON.parse(body);
 
-        if (httpStatus >= 500) {
+        if (httpStatus >= 500 && !JSONBody.errorMessage?.includes('Task timed out')) {
             await deleteJob(token, jobId);
             const gameId = url.split('/')[url.split('/').length - 1];
             throw Error(`Game Id not found.. unsubscribed from game ${gameId}`);
         }
 
-        return httpStatus === 200 ? JSON.parse(body) : [];
+        return httpStatus === 200 ? JSONBody : [];
     } catch(error) {
         throw new Error(error);
     }
