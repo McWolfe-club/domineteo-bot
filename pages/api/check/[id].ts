@@ -10,11 +10,13 @@ import formatNationStatus from '../../../util/formatNationStatus';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { id: gameId } = req.query;
+    let channelId = '';
+
     try {
         const cronToken = await login();
         const { jobs } = await jobList(cronToken);
         const gameJob = jobs.find(j => j.title.includes(gameId as string));
-        const channelId = gameJob?.title.split('__')[1];
+        channelId = gameJob?.title.split('__')[1];
 
         const currentStatus = await getGameStatus(gameId as string);
 
@@ -49,6 +51,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         res.status(200).json(currentStatus);
     } catch (error) {
+        if (error.errorMessage?.includes('Unsubscribed from game')) {
+            const gameInfo = await getGameInfo(gameId as string);
+            const game = { name: 'Game', value: `[**${gameInfo.name}**](https://dom.mcwolfe.club/game/${gameId})  (*${gameId}*)` };
+            await send_messages(channelId, 'Something happened, Unsubscribed from Game', [game]);
+        }
         throw new Error('Something went wrong when trying to get the current state of the game.\n' + error.toString());
     }
 };

@@ -22,7 +22,7 @@ export default async (token: string, identifier: string | number): Promise<Playe
         if (httpStatus >= 500 && !JSONBody.errorMessage?.includes('Task timed out')) {
             await deleteJob(token, jobId);
             const gameId = url.split('/')[url.split('/').length - 1];
-            throw Error(`Game Id not found.. unsubscribed from game ${gameId}`);
+            throw Error(`Unsubscribed from game ${gameId}`);
         }
 
         return httpStatus === 200 ? JSONBody : [];
