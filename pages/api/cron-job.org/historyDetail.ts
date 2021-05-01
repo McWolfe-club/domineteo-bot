@@ -20,9 +20,8 @@ export default async (token: string, identifier: string | number): Promise<Playe
         const JSONBody = JSON.parse(body);
 
         if (httpStatus >= 500 && !JSONBody.errorMessage?.includes('Task timed out')) {
-            await deleteJob(token, jobId);
             const gameId = url.split('/')[url.split('/').length - 1];
-            throw Error(`Unsubscribed from game ${gameId}`);
+            throw Error(`Something happend with cron-job for ${gameId}`);
         }
 
         return httpStatus === 200 ? JSONBody : [];
