@@ -23,6 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // get previous game state and send alert if new turn started
         if (gameJob) {
             const history = await jobHistory(cronToken, gameJob.jobId);
+            history.length = 3; // check only latest 3 stories
             const identifier = history.find(h => h.status === 1)?.identifier;
             if (identifier) {
                 const previousStatus = await historyDetail(cronToken, identifier);
