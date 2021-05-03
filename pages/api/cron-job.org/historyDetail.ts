@@ -1,6 +1,5 @@
 import { PlayerNationStatus } from "../../../util/getGameStatus";
 import { CronMethod, CRON_URL } from "./config";
-import deleteJob from "./deleteJob";
 
 export default async (token: string, identifier: string | number): Promise<PlayerNationStatus[]> => {
     try {
@@ -16,7 +15,7 @@ export default async (token: string, identifier: string | number): Promise<Playe
             }
         );
             
-        const { body, httpStatus, jobId, url  } = (await detailResponse.json()).jobHistoryDetails;
+        const { body, httpStatus, url  } = (await detailResponse.json()).jobHistoryDetails;
         const JSONBody = JSON.parse(body);
 
         if (httpStatus >= 500 && !JSONBody.errorMessage?.includes('Task timed out')) {
