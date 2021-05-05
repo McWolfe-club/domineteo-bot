@@ -23,9 +23,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         // get previous game state and send alert if new turn started
         if (gameJob) {
             const history = await jobHistory(cronToken, gameJob.jobId);
-            history.length = 3; // check only latest 3 stories
-            const identifier = history.find(h => h.status === 1)?.identifier;
-            if (identifier) {
+            const { identifier, status } = history[0];
+            if (identifier && status === 1) {
                 const previousStatus = await historyDetail(cronToken, identifier);
                 // find nation that was done or unfinished, and is now pending.
 
